@@ -2,52 +2,51 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Document</title>
+    <title>VueJS SocketIO</title>
+    <link rel="stylesheet" href="npm/bulma/css/bulma.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 
-<body> 
-    <div id="chat">
-        <ul id="messages">
-            <li v-for="message in messages">{{ message }}</li>
-        </ul>
+<body>
+    <div class="container">
+        <h1 class="subtitle is-3">FunnyMsg App</h1>
+        <div class="columns"> 
+            <div class="column is-two-thirds">
+                <div id="chat" class="box">
+                    <div id="messages">
+                        <ul>
+                            <li v-for="message in messages">
+                                <div class="media-content">
+                                    <div class="content">
+                                        <p>
+                                            <strong>{{message.user}}</strong> <small>{{message.date}}</small>
+                                            <br>
+                                            {{message.text}}
+                                        </p>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
 
-        <form v-on:submit.prevent="onSubmit">
-            <input v-model="message" placeholder="Write message">
-            <button v-on:click="send(message)">Send</button>
-        </form>
-    </div>      
+                    <div id="controls" class="field has-addons">
+                        <div class="control">
+                            <input v-model="message" v-on:keydown.enter="send" class="input is-primary" placeholder="Write message">
+                        </div>
+                        <div class="control">
+                            <button v-on:click="send" :disabled="!message" class="button is-primary">Send</button>
+                        </div>
+                    </div>
+                </div>  
+            </div>
+            <div class="column">
+                <h4 class="title is-4">Users</h4>
+            </div>
+        </div> 
+    </div>   
 
     <script src="npm/vue/dist/vue.js"></script>
     <script src="npm/socket.io-client/dist/socket.io.js"></script>
     <script src="app.js"></script>
-    <script>
-
-        var socket = io();
-
-        var app = new Vue({
-            el: '#chat',
-            data: {
-                messages: [],
-                message: ''
-            },
-            methods: {
-                onSubmit: function(event) {
-                    event.preventDefault();
-                },
-                send: function(event) {
-                    socket.emit('send-msg', this.message);
-                    this.message = '';
-                }
-            }
-        });
-
-        socket.on('read-msg', function(data){
-            app.messages.push(data);
-        });
-
-        socket.on('user-connected', function(userId) {
-            app.messages.push('User ' + userId + ' has been connected');
-        });
-    </script>
 </body>
 </html>
