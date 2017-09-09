@@ -6,6 +6,9 @@
         el: '#chat',
         data: {
             messages: [],
+            users: [],
+            username: '',
+            isLogged: false,
             message: ''
         },
         methods: {
@@ -14,9 +17,13 @@
             // },
             send: function() {
                 if(this.message){
-                    socket.emit('send-msg', this.message);
+                    socket.emit('send-msg', {message: this.message, user: this.username});
                     this.message = '';
                 }
+            },
+            sendUserName: function() {
+                this.isLogged = true;
+                socket.emit('add-user', this.username);
             },
             scrollToEnd: function() {       
                 var container = this.$el.querySelector("#messages");
@@ -34,7 +41,14 @@
 
     socket.on('user-connected', function(userId) {
        // app.messages.push('User ' + userId + ' has been connected');
-       console.log('User ' + userId + ' has been connected');
+       app.users.push(userId);
+    });
+
+    socket.on('init-chat', function(messages){
+        app.messages = messages;
+    });
+    socket.on('update-users', function(users){
+        app.users = users;
     });
 
 })();

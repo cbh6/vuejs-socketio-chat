@@ -2,45 +2,81 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>VueJS SocketIO</title>
+    <title>funnymsg</title>
     <link rel="stylesheet" href="npm/bulma/css/bulma.css">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="npm/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/stylesheets/style.css">
 </head>
 
 <body>
-    <div class="container">
-        <h1 class="subtitle is-3">FunnyMsg App</h1>
+    <div id="chat" class="container">
+        <h4 class="subtitle is-3">funnymsg app. Simple VueJS, SocketIO and NodeJS chat.</h4>
+        <h6 class="subtitle is-6">
+            @author: Cristian Botella Hurtado </br>
+
+            <a href="https://github.com/cbh6">
+                <i class="fa fa-github" aria-hidden="true"></i>
+                cbh6
+            </a>
+        </h6>
+        
         <div class="columns"> 
             <div class="column is-two-thirds">
-                <div id="chat" class="box">
-                    <div id="messages">
-                        <ul>
-                            <li v-for="message in messages">
-                                <div class="media-content">
-                                    <div class="content">
-                                        <p>
-                                            <strong>{{message.user}}</strong> <small>{{message.date}}</small>
-                                            <br>
-                                            {{message.text}}
-                                        </p>
+                
+                <transition name="fade">
+                    <div id="nameInput" v-show="!isLogged">
+                        <div class="field is-grouped is-grouped-centered">
+                            <div class="control">
+                                <input v-model="username" v-on:keydown.enter="sendUserName" class="input is-primary" placeholder="Your name">
+                            </div>
+                            <div class="control">
+                                <button v-on:click="sendUserName" :disabled="!username" class="button is-primary">Enter</button>
+                            </div>
+                        </div>
+                    </div>
+                </transition>
+                
+                <transition name="slide-fade">
+                    <div class="box" v-show="isLogged">
+                        <div id="messages">
+                            <ul>
+                                <li v-for="message in messages">
+                                    <div class="media-content">
+                                        <div class="content">
+                                            <p>
+                                                <strong>{{message.user}}</strong> <small>{{message.date}}</small>
+                                                <br>
+                                                {{message.text}}
+                                            </p>
+                                        </div>
                                     </div>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div id="controls" class="field has-addons">
-                        <div class="control">
-                            <input v-model="message" v-on:keydown.enter="send" class="input is-primary" placeholder="Write message">
+                                </li>
+                            </ul>
+                        </div>                
+                        <div id="controls" class="field has-addons">
+                            <div class="control is-expanded">
+                                <input v-model="message" v-on:keydown.enter="send" class="input is-primary" placeholder="Write message">
+                            </div>
+                            <div class="control">
+                                <button v-on:click="send" :disabled="!message" class="button is-primary">Send</button>
+                            </div>
                         </div>
-                        <div class="control">
-                            <button v-on:click="send" :disabled="!message" class="button is-primary">Send</button>
-                        </div>
-                    </div>
-                </div>  
+                    </div>  
+                </transition>
             </div>
             <div class="column">
-                <h4 class="title is-4">Users</h4>
+                <h4 class="title is-4">Current users ({{users.length}})</h4>
+                <ul>
+                    <li v-for="user in users">
+                        <div class="media-content">
+                            <div class="content">
+                                <p>
+                                    <strong>{{user.name}}</strong>
+                                </p>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
             </div>
         </div> 
     </div>   

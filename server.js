@@ -3,8 +3,10 @@ var app = express();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
 var dateFormat = require('dateformat');
+var favicon = require('serve-favicon');
 
 app.set('port', (process.env.PORT || 3000));
+app.use(favicon(__dirname + '/app/images/favicon.ico'));
 app.use('/npm', express.static('node_modules'));
 app.use(express.static('app'));
 
@@ -16,19 +18,31 @@ server.listen(3000, function() {
   console.log('Node app is running on port 3000');
 });
 
+var messages = [];
+var users = [];
 
 io.on('connection', function(socket) {
 
-	console.log('User connected:', socket.id);
+    //users.push(socket.id);
 
-	socket.broadcast.emit('user-connected', socket.id);
+    socket.emit('init-chat', messages);
+    socket.emit('update-users', users);
 
-    socket.on('send-msg', function(message) {
-        io.emit('read-msg', { text : message, user : socket.id, date : dateFormat(new Date(), 'shortTime') });
+    socket.on('send-msg', function(data) {
+        var newMessage = { text : data.message, user : data.user, date : dateFormat(new Date(), 'shortTime') };
+        messages.push(newMessage);
+        io.emit('read-msg', newMessage);
+    });
+
+    socket.on('add-user', function(user){
+        users.push({ id: socket.id, name: user });
+        io.emit('update-users', users);
     });
 
     socket.on('disconnect', function() {
-        //io.emit('read-msg', 'User has disconnected.');
-        console.log('User ' + socket.id + ' has disconnected');
+        users = users.filter(function(user){
+            return user.id != socket.id;
+        })
+        io.emit('update-users', users)
     });
 });
