@@ -1,24 +1,19 @@
 {
-  	"name": "vuejs-socketio",
-  	"version": "1.0.0",
-  	"main": "server.js",
-  	"license": "MIT",
-  	"keywords": [
-    	"node",
-    	"express",
-    	"vuejs",
-   	 	"socketio"
-  	],
- 	 "engines": {
-    	"node": "8.1.2"
-  	},
-	"scripts": {
-    	"start": "node server.js"
-  	},
-  	"dependencies": {
-	    "bulma": "^0.5.1",
-	    "express": "^4.15.4",
-	    "socket.io": "^2.0.3",
-	    "vue": "^2.4.2"
-  	}
+  "name": "vuejs-socketio",
+  "version": "1.0.0",
+  "main": "server.js",
+  "license": "MIT",
+  "keywords": [
+    "node",
+    "express",
+    "vuejs",
+    "socketio"
+  ],
+  "dependencies": {
+    "bulma": "^0.5.1",
+    "dateformat": "^2.0.0",
+    "express": "^4.15.4",
+    "socket.io": "^2.0.3",
+    "vue": "^2.4.2"
+  }
 }
