@@ -6,6 +6,8 @@ Real-time chat application built on NodeJS with VueJS & Socket.io.
 
 This application simply uses Socket.io to send messages in real-time bidirectional event-based communication. VueJS is used to bind data to the DOM and to easily manipulate the data.
 
+Demo: https://funnymsg-vue.herokuapp.com/
+
 ### Installing
 
 
