@@ -42,7 +42,7 @@ io.on('connection', function(socket) {
     socket.on('disconnect', function() {
         users = users.filter(function(user){
             return user.id != socket.id;
-        })
-        io.emit('update-users', users)
+        });
+        io.emit('update-users', users);
     });
 });
