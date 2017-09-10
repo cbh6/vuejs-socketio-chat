@@ -14,8 +14,8 @@ app.get('/', function(request, response) {
     response.sendFile(__dirname + '/app/index.html');
 });
 
-server.listen(3000, function() {
-  console.log('Node app is running on port 3000');
+server.listen(app.get('port'), function() {
+  console.log('Node app is running on port ', app.get('port'));
 });
 
 var messages = [];
