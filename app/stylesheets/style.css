@@ -1,9 +1,9 @@
-#messages{
+.messages{
 	overflow: auto;
 	height: 400px;
 }
 
-#controls{
+.controls{
 	padding-top: 5px;
 }
 

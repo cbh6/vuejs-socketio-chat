@@ -2,28 +2,111 @@
 
     var socket = io();
 
+    // Message Component
+    Vue.component('message' , {
+        props: ['messageData'],
+        template: ` <div class="media-content">
+                        <div class="content">
+                            <p>
+                                <strong>{{messageData.user}}</strong> <small>{{messageData.date}}</small>
+                                <br>
+                                {{messageData.text}}
+                            </p>
+                        </div>
+                    </div>`
+    });
+
+    // Input message Component
+    Vue.component('input-message' , {
+        data: function() {
+            return {
+                message: ''
+            }
+        },
+        template: ` <div class="controls" class="field has-addons">
+                        <div class="control is-expanded">
+                            <input v-model="message" v-on:keydown.enter="send" class="input is-primary" placeholder="Write message">
+                        </div>
+                        <div class="control">
+                            <button v-on:click="send" :disabled="!message" class="button is-primary">Send</button>
+                        </div>
+                    </div>`,
+        methods: {
+            send: function() {
+                if(this.message.length > 0){
+                    this.$emit('send-message', this.message);
+                    this.message = '';
+                }
+            }
+        }
+    });
+
+    // Input user name Component
+    Vue.component('input-name' , {
+        props: ['isLogged'],
+        data: function() {
+            return {
+                userName: ''
+            }
+        },
+        template: `<div id="nameInput" v-show="!isLogged">
+                        <div class="field is-grouped">
+                            <div class="control">
+                                <input v-model="userName" v-on:keydown.enter="sendUserName" class="input is-primary" placeholder="Your name">
+                            </div>
+                            <div class="control">
+                                <button v-on:click="sendUserName" :disabled="!userName" class="button is-primary">Enter</button>
+                            </div>
+                        </div>
+                    </div>`,
+        methods: {
+            sendUserName: function() {
+                if(this.userName.length > 0){
+                    this.$emit('set-name', this.userName);
+                }
+            }
+        }
+    });
+
+    // Users component
+    Vue.component('users' , {
+        props: ['users'],
+        template: ` <div>
+                        <h4 class="title is-4">Current users ({{users.length}})</h4>
+                        <ul>
+                            <li v-for="user in users">
+                                <div class="media-content">
+                                    <div class="content">
+                                        <p>
+                                            <strong>{{user.name}}</strong>
+                                        </p>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>`
+    });
+
+    // Vue instance
     var app = new Vue({
-        el: '#chat',
+        el: '#app',
         data: {
             messages: [],
             users: [],
-            username: '',
-            isLogged: false,
-            message: ''
+            userName: '',
+            isLogged: false
         },
         methods: {
-            // onSubmit: function(event) {
-            //     event.preventDefault();
-            // },
-            send: function() {
-                if(this.message){
-                    socket.emit('send-msg', {message: this.message, user: this.username});
-                    this.message = '';
+
+            sendMessage: function(message) {
+                if(message){
+                    socket.emit('send-msg', {message: message, user: this.userName});
                 }
             },
-            sendUserName: function() {
+            setName: function(userName) {
+                this.userName = userName;
                 this.isLogged = true;
-                socket.emit('add-user', this.username);
+                socket.emit('add-user', this.userName);
             },
             scrollToEnd: function() {       
                 var container = this.$el.querySelector("#messages");
@@ -40,7 +123,6 @@
     });
 
     socket.on('user-connected', function(userId) {
-       // app.messages.push('User ' + userId + ' has been connected');
        app.users.push(userId);
     });
 
