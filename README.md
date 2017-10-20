@@ -1,4 +1,4 @@
-# funnymsg - VueJS + SocketIO + NodeJS Chat application
+# VueJS + SocketIO + NodeJS Chat application
 
 [![bitHound Overall Score](https://www.bithound.io/github/cbh6/funnymsg-vuejs/badges/score.svg)](https://www.bithound.io/github/cbh6/funnymsg-vuejs)
 
@@ -14,7 +14,7 @@ Demo: https://funnymsg-vue.herokuapp.com/
 Clone the repository
 
 ```
-`git clone https://github.com/cbh6/funnymsg-vuejs.git`
+`git clone https://github.com/cbh6/vuejs-socketio-chat.git`
 ```
 
 CD in to the directory
@@ -56,7 +56,4 @@ node server.js
 **Cristian Botella** 
 
 
-## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
 
