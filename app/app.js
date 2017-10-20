@@ -118,17 +118,24 @@
         }
     });
 
+    // Client Socket events
+
+    // When the server emits a message, the client updates message list
     socket.on('read-msg', function(message){
         app.messages.push({text : message.text, user : message.user, date : message.date});
     });
 
+    // When user connects, the server emits user-connected event which updates user list
     socket.on('user-connected', function(userId) {
        app.users.push(userId);
     });
 
+    // Init chat event. Updates the initial chat with current messages
     socket.on('init-chat', function(messages){
         app.messages = messages;
     });
+
+    // Init user list. Updates user list when the client init
     socket.on('update-users', function(users){
         app.users = users;
     });
