@@ -20,7 +20,7 @@ Clone the repository
 CD in to the directory
 
 ```
-CD funnymsg-vuejs
+CD vuejs-socketio-chat
 ```
 
 Install dependencies
@@ -37,10 +37,10 @@ node server.js
 
 ## Built With
 
-* [SocketIO](https://socket.io/) -  Realtime and bi-directional communication between web clients and servers
-* [VueJS](https://vuejs.org/) -  A progressive framework for building user interfaces
-* [NodeJS](https://nodejs.org/es/) - The server framework
-* [Bulma](http://bulma.io/) - CSS Framework
+* [SocketIO](https://socket.io/)
+* [VueJS](https://vuejs.org/) 
+* [NodeJS](https://nodejs.org/es/) 
+* [Bulma](http://bulma.io/)
 
 ## Authors
 
