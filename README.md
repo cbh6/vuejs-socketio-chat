@@ -1,6 +1,6 @@
 # VueJS + SocketIO + NodeJS Chat application
 
-[I've wrote a Medium Post talking about this project](https://medium.com/@cri.bh6/building-a-real-time-chat-with-vuejs-nodejs-and-socketio-18f66e8da5d7) 
+[I've written a Medium Post talking about this project](https://medium.com/@cri.bh6/building-a-real-time-chat-with-vuejs-nodejs-and-socketio-18f66e8da5d7) 
 
 Real-time chat application built on NodeJS with VueJS & Socket.io.
 
